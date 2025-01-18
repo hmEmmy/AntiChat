@@ -36,7 +36,7 @@ public class CoreHandler {
         IPunishmentHandler punishmentHandler = AkumaAPI.getInstance().getPunishmentHandler();
 
         for (PunishmentType type : this.BAN_TYPES) {
-            if (punishmentHandler.getActivePunishment(uuid, type).isActive()) {
+            if (punishmentHandler.getActivePunishment(uuid, type) != null) {
                 Bukkit.getConsoleSender().sendMessage(CC.translate("&4[DEBUG] &cPlayer " + Bukkit.getPlayer(uuid).getName() + " is punished with type " + type.name() + "."));
                 return true;
             }

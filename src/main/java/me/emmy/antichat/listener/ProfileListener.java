@@ -29,8 +29,7 @@ public class ProfileListener implements Listener {
     @EventHandler
     private void onProcessCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        CoreHandler coreHandler = AntiChat.getInstance().getCoreHandler();
-        if (coreHandler.isPlayerPunished(player.getUniqueId())) {
+        if (this.coreHandler.isPlayerPunished(player.getUniqueId())) {
             player.sendMessage(CC.translate("&cYou cannot execute commands while being punished."));
             event.setCancelled(true);
         }
@@ -39,8 +38,7 @@ public class ProfileListener implements Listener {
     @EventHandler
     private void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        CoreHandler coreHandler = AntiChat.getInstance().getCoreHandler();
-        if (coreHandler.isPlayerPunished(player.getUniqueId())) {
+        if (this.coreHandler.isPlayerPunished(player.getUniqueId())) {
             player.sendMessage(CC.translate("&cYou cannot chat while being punished."));
             event.setCancelled(true);
         }
