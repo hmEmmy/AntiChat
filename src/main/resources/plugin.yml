@@ -1,0 +1,5 @@
+name: AntiChat
+version: '${project.version}'
+main: me.emmy.antichat.AntiChat
+authors: [Emmy]
+description: Disallows chatting if a player is being punished in different cores.
