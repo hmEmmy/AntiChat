@@ -1,38 +1,48 @@
 package me.emmy.antichat.listener;
 
-import cc.insidious.akuma.api.AkumaAPI;
-import cc.insidious.akuma.api.profile.Profile;
-import cc.insidious.akuma.api.punishment.IPunishmentHandler;
-import cc.insidious.akuma.api.punishment.repository.PunishmentRepository;
 import me.emmy.antichat.AntiChat;
 import me.emmy.antichat.core.CoreHandler;
+import me.emmy.antichat.util.CC;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
  * @author Emmy
  * @project AntiChat
  * @date 18/01/2025 - 17:57
  */
-public class JoinListener implements Listener {
+public class ProfileListener implements Listener {
+    protected final CoreHandler coreHandler;
 
-    private void onJoin(PlayerJoinEvent event) {
+    /**
+     * Constructor for the JoinListener class.
+     *
+     * @param coreHandler The core handler instance
+     */
+    public ProfileListener(CoreHandler coreHandler) {
+        this.coreHandler = coreHandler;
+    }
+
+    @EventHandler
+    private void onProcessCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        Profile profile = AkumaAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         CoreHandler coreHandler = AntiChat.getInstance().getCoreHandler();
         if (coreHandler.isPlayerPunished(player.getUniqueId())) {
-            //do something here
+            player.sendMessage(CC.translate("&cYou cannot execute commands while being punished."));
+            event.setCancelled(true);
         }
     }
 
-    private void onProcessCommand(PlayerCommandPreprocessEvent event) {
+    @EventHandler
+    private void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        Profile profile = AkumaAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         CoreHandler coreHandler = AntiChat.getInstance().getCoreHandler();
         if (coreHandler.isPlayerPunished(player.getUniqueId())) {
-            player.sendMessage();
+            player.sendMessage(CC.translate("&cYou cannot chat while being punished."));
+            event.setCancelled(true);
         }
     }
 }
